@@ -47,6 +47,36 @@ func TestExecutableDataDeneb_MarshalUnmarshalJSON(t *testing.T) {
 			},
 			wantErr: false,
 		},
+		{
+			name: "valid data with no transactions",
+			input: types.ExecutableDataDeneb{
+				ParentHash:    ethcommon.BytesToHash([]byte("parentHash")),
+				FeeRecipient:  ethcommon.BytesToAddress([]byte("feeRecipient")),
+				StateRoot:     common.Bytes32(ethcommon.BytesToHash([]byte("stateRoot"))),
+				ReceiptsRoot:  common.Bytes32(ethcommon.BytesToHash([]byte("receiptsRoot"))),
+				LogsBloom:     make([]byte, 256),
+				Random:        common.Bytes32(ethcommon.BytesToHash([]byte("random"))),
+				Number:        math.U64(1),
+				GasLimit:      math.U64(1000000),
+				GasUsed:       math.U64(500000),
+				Timestamp:     math.U64(1622740000),
+				ExtraData:     []byte("extraData"),
+				BaseFeePerGas: math.U256L(ethcommon.BytesToHash([]byte("1000000000"))),
+				BlockHash:     ethcommon.BytesToHash([]byte("blockHash")),
+				Transactions:  [][]byte{},
+				Withdrawals: []*engineprimitives.Withdrawal{
+					{
+						Index:     math.U64(0),
+						Validator: math.U64(1),
+						Address:   ethcommon.BytesToAddress([]byte("withdrawalAddress")),
+						Amount:    math.U64(1000),
+					},
+				},
+				BlobGasUsed:   math.U64(2000000),
+				ExcessBlobGas: math.U64(500000),
+			},
+			wantErr: false,
+		},
 	}
 
 	for _, tt := range tests {
